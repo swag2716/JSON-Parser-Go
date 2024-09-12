@@ -19,6 +19,12 @@ func main() {
 
 	str := string(content)
 
+	length := len(str)
+
+	if str[0] != '{' || str[length-1] != '}' {
+		os.Exit(1)
+	}
+
 	fmt.Println(str)
 
 }
