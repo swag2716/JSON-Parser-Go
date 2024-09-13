@@ -21,7 +21,13 @@ func main() {
 
 	length := len(str)
 
+	if length == 0 {
+		fmt.Println("Length = 0")
+		os.Exit(1)
+	}
+
 	if str[0] != '{' || str[length-1] != '}' {
+		fmt.Println("curly braces error")
 		os.Exit(1)
 	}
 
