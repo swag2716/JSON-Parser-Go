@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+
+	"github.com/json_parser/ast"
+	"github.com/json_parser/parser"
 )
 
 func main() {
@@ -17,41 +20,18 @@ func main() {
 		return
 	}
 
-	str := string(content)
+	json_string := string(content)
 
-	length := len(str)
+	fmt.Println(json_string)
 
-	if length < 2 {
-		fmt.Println("Length = 0")
-		os.Exit(1)
+	parser := parser.NewParser(json_string) //creating a new parser
+
+	result, err := parser.Parse()
+
+	if err != nil {
+		panic(err)
 	}
 
-	if str[0] != '{' || str[length-1] != '}' {
-		fmt.Println("curly braces error")
-		os.Exit(1)
-	}
-	flag := false
-	for i := 1; i < length-1; i++ {
-		k := i
-		if str[k] != '"' {
-			fmt.Println("syntax error")
-			os.Exit(1)
-		}
-		for str[k] != '"' {
-			k++
-		}
-		if flag && str[k] != ',' {
-			fmt.Println("syntax error")
-			os.Exit(1)
-		}
-		if !flag && str[k] != ':' {
-			fmt.Println("syntax error")
-			os.Exit(1)
-		}
-		flag = !flag
-		i = k
-	}
-
-	fmt.Println(str)
+	ast.PrintAST(result, "")
 
 }
